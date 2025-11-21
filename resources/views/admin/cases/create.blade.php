@@ -19,45 +19,7 @@
         @enderror
     </div>
     
-    <div class="form-group">
-        <label class="form-label">Клиент</label>
-        <input type="text" name="client" class="form-input {{ $errors->has('client') ? 'is-invalid' : '' }}" value="{{ old('client') }}">
-        @error('client')
-            <div class="error-message">{{ $message }}</div>
-        @enderror
-    </div>
-    
-    <div class="form-group">
-        <label class="form-label">Ниша</label>
-        <input type="text" name="niche" class="form-input {{ $errors->has('niche') ? 'is-invalid' : '' }}" value="{{ old('niche') }}">
-        @error('niche')
-            <div class="error-message">{{ $message }}</div>
-        @enderror
-    </div>
-    
-    <div class="form-group">
-        <label class="form-label">Задача</label>
-        <textarea name="task" class="form-textarea {{ $errors->has('task') ? 'is-invalid' : '' }}">{{ old('task') }}</textarea>
-        @error('task')
-            <div class="error-message">{{ $message }}</div>
-        @enderror
-    </div>
-    
-    <div class="form-group">
-        <label class="form-label">Решение</label>
-        <textarea name="solution" class="form-textarea {{ $errors->has('solution') ? 'is-invalid' : '' }}">{{ old('solution') }}</textarea>
-        @error('solution')
-            <div class="error-message">{{ $message }}</div>
-        @enderror
-    </div>
-    
-    <div class="form-group">
-        <label class="form-label">Результат</label>
-        <textarea name="result" class="form-textarea {{ $errors->has('result') ? 'is-invalid' : '' }}">{{ old('result') }}</textarea>
-        @error('result')
-            <div class="error-message">{{ $message }}</div>
-        @enderror
-    </div>
+    @include('admin.cases.partials.sections', ['initialSections' => old('sections', [])])
     
     <div class="form-group">
         <label class="form-label">Изображение</label>

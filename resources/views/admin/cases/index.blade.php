@@ -13,7 +13,7 @@
         <tr>
             <th>Изображение</th>
             <th>Название</th>
-            <th>Клиент</th>
+            <th>Ключевые факты</th>
             <th>Порядок</th>
             <th>Активен</th>
             <th>Действия</th>
@@ -30,7 +30,23 @@
                 @endif
             </td>
             <td>{{ $case->title }}</td>
-            <td>{{ $case->client ?? '-' }}</td>
+            @php
+                $primaryDetails = collect($case->primary_details ?? [])->take(2);
+            @endphp
+            <td>
+                @if($primaryDetails->isNotEmpty())
+                    @foreach($primaryDetails as $detail)
+                        <div>
+                            @if(!empty($detail['label']))
+                                <strong>{{ $detail['label'] }}:</strong>
+                            @endif
+                            {{ strip_tags($detail['value'] ?? '') }}
+                        </div>
+                    @endforeach
+                @else
+                    <span>-</span>
+                @endif
+            </td>
             <td>{{ $case->order }}</td>
             <td>
                 @if($case->is_active)

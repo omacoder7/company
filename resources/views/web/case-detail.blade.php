@@ -13,40 +13,56 @@
         
         <h1>{{ $case->title }}</h1>
         
-        @if($case->client || $case->niche)
-        <div style="display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); flex-wrap: wrap;">
-            @if($case->client)
-            <div>
-                <strong>Клиент:</strong> {{ $case->client }}
+        @php
+            $sections = $case->sections ?? [];
+        @endphp
+
+        @if(!empty($sections))
+            @foreach($sections as $section)
+                @php
+                    $type = $section['type'] ?? 'text';
+                    $title = $section['title'] ?? null;
+                    $content = $section['content'] ?? null;
+                    $items = $section['items'] ?? [];
+                    $details = $section['details'] ?? [];
+                @endphp
+                <div class="case-content-block" style="margin-bottom: var(--spacing-lg);">
+                    @if($title)
+                        <h2>{{ $title }}</h2>
+                    @endif
+
+                    @if($type === 'details' && !empty($details))
+                        <div class="case-details-grid" style="display: flex; flex-wrap: wrap; gap: var(--spacing-md);">
+                            @foreach($details as $detail)
+                                <div style="min-width: 180px;">
+                                    @if(!empty($detail['label']))
+                                        <strong style="display: block; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.85rem;">
+                                            {{ $detail['label'] }}
+                                        </strong>
+                                    @endif
+                                    <div style="font-size: 1.05rem; line-height: 1.6;">
+                                        {!! $detail['value'] ?? '' !!}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @elseif($type === 'list' && !empty($items))
+                        <ul style="padding-left: 1.25rem; font-size: 1.05rem; line-height: 1.8;">
+                            @foreach($items as $item)
+                                <li>{!! $item !!}</li>
+                            @endforeach
+                        </ul>
+                    @elseif($content)
+                        <div class="case-content-rich" style="font-size: 1.1rem; line-height: 1.8;">
+                            {!! $content !!}
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        @else
+            <div style="margin-bottom: var(--spacing-lg);">
+                <p style="font-size: 1.1rem; line-height: 1.8;">Контент кейса появится скоро.</p>
             </div>
-            @endif
-            @if($case->niche)
-            <div>
-                <strong>Ниша:</strong> {{ $case->niche }}
-            </div>
-            @endif
-        </div>
-        @endif
-        
-        @if($case->task)
-        <div style="margin-bottom: var(--spacing-lg);">
-            <h2>Задача</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8;">{{ $case->task }}</p>
-        </div>
-        @endif
-        
-        @if($case->solution)
-        <div style="margin-bottom: var(--spacing-lg);">
-            <h2>Решение</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8;">{{ $case->solution }}</p>
-        </div>
-        @endif
-        
-        @if($case->result)
-        <div style="margin-bottom: var(--spacing-lg);">
-            <h2>Результат</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8;">{{ $case->result }}</p>
-        </div>
         @endif
         
         <div class="text-center mt-3">

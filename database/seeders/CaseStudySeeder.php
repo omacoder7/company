@@ -81,9 +81,76 @@ class CaseStudySeeder extends Seeder
             ],
         ];
 
-        foreach ($cases as $case) {
-            CaseStudy::create($case);
+        foreach ($cases as &$case) {
+            $sections = [];
+
+            $detailsItems = [];
+            if (!empty($case['client'])) {
+                $detailsItems[] = [
+                    'label' => 'Клиент',
+                    'value' => $case['client'],
+                ];
+            }
+
+            if (!empty($case['niche'])) {
+                $detailsItems[] = [
+                    'label' => 'Ниша',
+                    'value' => $case['niche'],
+                ];
+            }
+
+            if (!empty($detailsItems)) {
+                $sections[] = [
+                    'title' => 'Информация о проекте',
+                    'type' => 'details',
+                    'content' => null,
+                    'items' => [],
+                    'details' => $detailsItems,
+                ];
+            }
+
+            if (!empty($case['task'])) {
+                $sections[] = [
+                    'title' => 'Задача',
+                    'type' => 'text',
+                    'content' => $case['task'],
+                    'items' => [],
+                    'details' => [],
+                ];
+            }
+
+            if (!empty($case['solution'])) {
+                $sections[] = [
+                    'title' => 'Решение',
+                    'type' => 'text',
+                    'content' => $case['solution'],
+                    'items' => [],
+                    'details' => [],
+                ];
+            }
+
+            if (!empty($case['result'])) {
+                $sections[] = [
+                    'title' => 'Результат',
+                    'type' => 'text',
+                    'content' => $case['result'],
+                    'items' => [],
+                    'details' => [],
+                ];
+            }
+
+            // Убираем старые поля и оставляем только нужные
+            $caseData = [
+                'title' => $case['title'],
+                'sections' => $sections,
+                'image' => $case['image'] ?? null,
+                'order' => $case['order'],
+                'is_active' => $case['is_active'],
+            ];
+
+            CaseStudy::create($caseData);
         }
+        unset($case);
     }
 }
 

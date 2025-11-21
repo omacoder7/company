@@ -109,11 +109,21 @@
                 <img src="{{ asset('storage/' . $case->image) }}" alt="{{ $case->title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: var(--spacing-sm);">
                 @endif
                 <h3 class="card-title">{{ $case->title }}</h3>
-                @if($case->client)
-                <p class="card-text"><strong>Клиент:</strong> {{ $case->client }}</p>
+                @php
+                    $primaryDetails = collect($case->primary_details ?? [])->take(2);
+                @endphp
+                @if($primaryDetails->isNotEmpty())
+                    @foreach($primaryDetails as $detail)
+                        <p class="card-text">
+                            @if(!empty($detail['label']))
+                                <strong>{{ $detail['label'] }}:</strong>
+                            @endif
+                            {{ strip_tags($detail['value'] ?? '') }}
+                        </p>
+                    @endforeach
                 @endif
-                @if($case->niche)
-                <p class="card-text"><strong>Ниша:</strong> {{ $case->niche }}</p>
+                @if($case->summary)
+                <p class="card-text">{{ Str::limit($case->summary, 150) }}</p>
                 @endif
                 <a href="{{ route('cases.show', $case->id) }}" class="btn">Подробнее</a>
             </div>

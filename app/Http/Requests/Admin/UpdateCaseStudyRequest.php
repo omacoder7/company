@@ -27,11 +27,14 @@ class UpdateCaseStudyRequest extends FormRequest
         
         return [
             'title' => 'required|string|max:255',
-            'client' => 'nullable|string|max:255',
-            'niche' => 'nullable|string|max:255',
-            'task' => 'nullable|string',
-            'solution' => 'nullable|string',
-            'result' => 'nullable|string',
+            'sections' => 'nullable|array',
+            'sections.*.title' => 'nullable|string|max:255',
+            'sections.*.type' => 'nullable|in:text,list,details',
+            'sections.*.content' => 'nullable|string',
+            'sections.*.items' => 'nullable|string',
+            'sections.*.details' => 'nullable|array',
+            'sections.*.details.*.label' => 'nullable|string|max:255',
+            'sections.*.details.*.value' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'order' => [
                 'nullable',

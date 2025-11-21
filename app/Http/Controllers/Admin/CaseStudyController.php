@@ -25,6 +25,10 @@ class CaseStudyController extends Controller
     public function store(StoreCaseStudyRequest $request)
     {
         $validated = $request->validated();
+        $validated['sections'] = $this->normalizeSections($request->input('sections', []));
+        
+        // Убираем старые поля, если они случайно попали в validated
+        unset($validated['client'], $validated['niche'], $validated['task'], $validated['solution'], $validated['result']);
         
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('cases', 'public');
@@ -49,6 +53,10 @@ class CaseStudyController extends Controller
     {
         $case = CaseStudy::findOrFail($id);
         $validated = $request->validated();
+        $validated['sections'] = $this->normalizeSections($request->input('sections', []));
+        
+        // Убираем старые поля, если они случайно попали в validated
+        unset($validated['client'], $validated['niche'], $validated['task'], $validated['solution'], $validated['result']);
         
         if ($request->hasFile('image')) {
             if ($case->image) {
@@ -69,6 +77,67 @@ class CaseStudyController extends Controller
         }
         $case->delete();
         return back()->with('success', 'Кейс удален');
+    }
+
+    private function normalizeSections(array $sections = []): array
+    {
+        if (empty($sections)) {
+            return [];
+        }
+
+        return collect($sections)
+            ->map(function ($section) {
+                $type = $section['type'] ?? 'text';
+                $title = trim($section['title'] ?? '');
+                $content = null;
+                $items = [];
+                $details = [];
+
+                if ($type === 'list') {
+                    $items = collect(preg_split("/\r\n|\n|\r/", $section['items'] ?? ''))
+                        ->map(fn ($item) => trim($item))
+                        ->filter()
+                        ->values()
+                        ->all();
+                } elseif ($type === 'details') {
+                    $details = collect($section['details'] ?? [])
+                        ->map(function ($detail) {
+                            return [
+                                'label' => trim($detail['label'] ?? ''),
+                                'value' => trim($detail['value'] ?? ''),
+                            ];
+                        })
+                        ->filter(function ($detail) {
+                            return $detail['label'] !== '' || $detail['value'] !== '';
+                        })
+                        ->values()
+                        ->all();
+                } else {
+                    $type = 'text';
+                    $content = trim($section['content'] ?? '');
+                }
+
+                return [
+                    'title' => $title,
+                    'type' => $type,
+                    'content' => $type === 'text' ? $content : null,
+                    'items' => $type === 'list' ? $items : [],
+                    'details' => $type === 'details' ? $details : [],
+                ];
+            })
+            ->filter(function ($section) {
+                if ($section['type'] === 'list') {
+                    return $section['title'] !== '' || !empty($section['items']);
+                }
+
+                if ($section['type'] === 'details') {
+                    return $section['title'] !== '' || !empty($section['details']);
+                }
+
+                return $section['title'] !== '' || $section['content'] !== '';
+            })
+            ->values()
+            ->all();
     }
 }
 
