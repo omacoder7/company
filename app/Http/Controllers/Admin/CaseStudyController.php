@@ -25,16 +25,30 @@ class CaseStudyController extends Controller
     public function store(StoreCaseStudyRequest $request)
     {
         $validated = $request->validated();
-        $validated['sections'] = $this->normalizeSections($request->input('sections', []));
         
-        // Убираем старые поля, если они случайно попали в validated
-        unset($validated['client'], $validated['niche'], $validated['task'], $validated['solution'], $validated['result']);
+        // Extract translation data
+        $translations = $validated['translations'] ?? [];
+        unset($validated['translations']);
         
+        // Handle image
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('cases', 'public');
         }
         
-        CaseStudy::create($validated);
+        // Create case study
+        $case = CaseStudy::create($validated);
+        
+        // Save translations
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (isset($translations[$locale])) {
+                $translationData = [
+                    'title' => $translations[$locale]['title'] ?? '',
+                    'sections' => $this->normalizeSections($translations[$locale]['sections'] ?? []),
+                ];
+                $case->saveTranslation($locale, $translationData);
+            }
+        }
+        
         return redirect()->route('admin.cases.index')->with('success', 'Кейс создан');
     }
     
@@ -45,19 +59,31 @@ class CaseStudyController extends Controller
     
     public function edit($id)
     {
-        $case = CaseStudy::findOrFail($id);
-        return view('admin.cases.edit', compact('case'));
+        $case = CaseStudy::with('translations')->findOrFail($id);
+        
+        // Prepare translations data for form
+        $translations = [];
+        foreach (['ru', 'en', 'az'] as $locale) {
+            $translation = $case->translation($locale);
+            $translations[$locale] = [
+                'title' => $translation ? $translation->title : '',
+                'sections' => $translation && $translation->sections ? $translation->sections : [],
+            ];
+        }
+        
+        return view('admin.cases.edit', compact('case', 'translations'));
     }
     
     public function update(UpdateCaseStudyRequest $request, $id)
     {
         $case = CaseStudy::findOrFail($id);
         $validated = $request->validated();
-        $validated['sections'] = $this->normalizeSections($request->input('sections', []));
         
-        // Убираем старые поля, если они случайно попали в validated
-        unset($validated['client'], $validated['niche'], $validated['task'], $validated['solution'], $validated['result']);
+        // Extract translation data
+        $translations = $validated['translations'] ?? [];
+        unset($validated['translations']);
         
+        // Handle image
         if ($request->hasFile('image')) {
             if ($case->image) {
                 Storage::disk('public')->delete($case->image);
@@ -65,7 +91,20 @@ class CaseStudyController extends Controller
             $validated['image'] = $request->file('image')->store('cases', 'public');
         }
         
+        // Update case study
         $case->update($validated);
+        
+        // Save translations
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (isset($translations[$locale])) {
+                $translationData = [
+                    'title' => $translations[$locale]['title'] ?? '',
+                    'sections' => $this->normalizeSections($translations[$locale]['sections'] ?? []),
+                ];
+                $case->saveTranslation($locale, $translationData);
+            }
+        }
+        
         return redirect()->route('admin.cases.index')->with('success', 'Кейс обновлен');
     }
     

@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CaseStudy extends Model
 {
+    use Translatable;
+
     protected $fillable = [
-        'title',
-        'sections',
         'image',
         'order',
         'is_active',
@@ -16,8 +18,51 @@ class CaseStudy extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'sections' => 'array',
     ];
+
+    /**
+     * Get all translations for this case study
+     */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(CaseStudyTranslation::class);
+    }
+
+    /**
+     * Get translated title
+     */
+    public function getTitle($locale = null)
+    {
+        return $this->getTranslatedAttribute('title', $locale);
+    }
+
+    /**
+     * Get translated sections
+     */
+    public function getSections($locale = null)
+    {
+        $translated = $this->getTranslatedAttribute('sections', $locale);
+        if ($translated) {
+            return is_string($translated) ? json_decode($translated, true) : $translated;
+        }
+        return [];
+    }
+
+    /**
+     * Accessor for title (uses current locale)
+     */
+    public function getTitleAttribute()
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     * Accessor for sections (uses current locale)
+     */
+    public function getSectionsAttribute()
+    {
+        return $this->getSections();
+    }
 
     public function flexibleSections(): array
     {

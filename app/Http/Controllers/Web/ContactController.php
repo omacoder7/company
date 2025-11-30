@@ -13,9 +13,14 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $content = PageContent::where('page', 'contacts')
-            ->pluck('content', 'section')
-            ->toArray();
+        $pageContents = PageContent::with('translations')
+            ->where('page', 'contacts')
+            ->get();
+            
+        $content = [];
+        foreach ($pageContents as $pageContent) {
+            $content[$pageContent->section] = $pageContent->content;
+        }
             
         return view('web.contacts', compact('content'));
     }

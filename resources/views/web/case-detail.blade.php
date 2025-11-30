@@ -5,7 +5,7 @@
 @section('content')
 <section class="section">
     <div class="container" style="max-width: 900px;">
-        <a href="{{ route('cases') }}" class="btn btn-secondary" style="margin-bottom: var(--spacing-md);">← Назад к кейсам</a>
+        <a href="{{ route('cases', ['locale' => app()->getLocale()]) }}" class="btn btn-secondary" style="margin-bottom: var(--spacing-md);">← {{ __('pages.back_to_cases') }}</a>
         
         @if($case->image)
         <img src="{{ asset('storage/' . $case->image) }}" alt="{{ $case->title }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: var(--spacing-lg);">
@@ -66,7 +66,7 @@
         @endif
         
         <div class="text-center mt-3">
-            <a href="{{ route('contacts') }}" class="btn btn-primary">Обсудить проект</a>
+            <a href="{{ route('contacts', ['locale' => app()->getLocale()]) }}" class="btn btn-primary">{{ __('pages.discuss_project') }}</a>
         </div>
     </div>
 </section>

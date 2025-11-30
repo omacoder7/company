@@ -9,9 +9,14 @@ class AboutController extends Controller
 {
     public function index()
     {
-        $content = PageContent::where('page', 'about')
-            ->pluck('content', 'section')
-            ->toArray();
+        $pageContents = PageContent::with('translations')
+            ->where('page', 'about')
+            ->get();
+            
+        $content = [];
+        foreach ($pageContents as $pageContent) {
+            $content[$pageContent->section] = $pageContent->content;
+        }
             
         return view('web.about', compact('content'));
     }

@@ -22,7 +22,22 @@ class DeveloperTaskController extends Controller
     
     public function store(StoreDeveloperTaskRequest $request)
     {
-        DeveloperTask::create($request->validated());
+        $validated = $request->validated();
+        
+        // Extract translation data
+        $translations = $validated['translations'] ?? [];
+        unset($validated['translations']);
+        
+        // Create task
+        $task = DeveloperTask::create($validated);
+        
+        // Save translations
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (isset($translations[$locale])) {
+                $task->saveTranslation($locale, $translations[$locale]);
+            }
+        }
+        
         return redirect()->route('admin.developer-tasks.index')->with('success', 'Задача создана');
     }
     
@@ -33,14 +48,40 @@ class DeveloperTaskController extends Controller
     
     public function edit($id)
     {
-        $task = DeveloperTask::findOrFail($id);
-        return view('admin.developer-tasks.edit', compact('task'));
+        $task = DeveloperTask::with('translations')->findOrFail($id);
+        
+        // Prepare translations data for form
+        $translations = [];
+        foreach (['ru', 'en', 'az'] as $locale) {
+            $translation = $task->translation($locale);
+            $translations[$locale] = [
+                'title' => $translation ? $translation->title : '',
+                'description' => $translation ? $translation->description : '',
+            ];
+        }
+        
+        return view('admin.developer-tasks.edit', compact('task', 'translations'));
     }
     
     public function update(UpdateDeveloperTaskRequest $request, $id)
     {
         $task = DeveloperTask::findOrFail($id);
-        $task->update($request->validated());
+        $validated = $request->validated();
+        
+        // Extract translation data
+        $translations = $validated['translations'] ?? [];
+        unset($validated['translations']);
+        
+        // Update task
+        $task->update($validated);
+        
+        // Save translations
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (isset($translations[$locale])) {
+                $task->saveTranslation($locale, $translations[$locale]);
+            }
+        }
+        
         return redirect()->route('admin.developer-tasks.index')->with('success', 'Задача обновлена');
     }
     

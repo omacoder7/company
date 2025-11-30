@@ -42,7 +42,8 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect()->route('home');
+        $locale = session('locale', config('app.locale', 'en'));
+        return redirect()->route('home', ['locale' => $locale]);
     }
 }
 

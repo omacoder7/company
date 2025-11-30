@@ -24,8 +24,10 @@ class StoreDeveloperTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'translations' => 'required|array|min:1',
+            'translations.*' => 'nullable|array',
+            'translations.*.title' => 'required_with:translations.*|nullable|string|max:255',
+            'translations.*.description' => 'nullable|string',
             'stack' => 'nullable|string|max:255',
             'format' => 'nullable|string|max:255',
             'order' => [
@@ -47,5 +49,32 @@ class StoreDeveloperTaskRequest extends FormRequest
             'is_active' => 'boolean',
         ];
     }
+    
+    public function messages()
+    {
+        return [
+            'translations.required' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.min' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.*.title.required_with' => 'Если вы заполняете язык, название обязательно.',
+        ];
+    }
+    
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $translations = $this->input('translations', []);
+            $hasTitle = false;
+            
+            foreach (['ru', 'en', 'az'] as $locale) {
+                if (!empty($translations[$locale]['title'] ?? '')) {
+                    $hasTitle = true;
+                    break;
+                }
+            }
+            
+            if (!$hasTitle) {
+                $validator->errors()->add('translations', 'Необходимо заполнить название хотя бы на одном языке.');
+            }
+        });
+    }
 }
-

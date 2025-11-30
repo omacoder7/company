@@ -82,7 +82,7 @@ class CaseStudySeeder extends Seeder
         ];
 
         foreach ($cases as &$case) {
-            $sections = [];
+            $sections = []; // Initialize as empty array
 
             $detailsItems = [];
             if (!empty($case['client'])) {
@@ -141,14 +141,26 @@ class CaseStudySeeder extends Seeder
 
             // Убираем старые поля и оставляем только нужные
             $caseData = [
-                'title' => $case['title'],
                 'sections' => $sections,
                 'image' => $case['image'] ?? null,
                 'order' => $case['order'],
                 'is_active' => $case['is_active'],
             ];
 
-            CaseStudy::create($caseData);
+            $caseModel = CaseStudy::create($caseData);
+            
+            // Create translations for all languages
+            // For now, use Russian as base for all languages (can be updated later)
+            $sectionsArray = is_array($sections) ? $sections : [];
+            
+            foreach (['ru', 'en', 'az'] as $locale) {
+                $translationData = [
+                    'title' => $case['title'],
+                    'sections' => $sectionsArray, // Always include sections, even if empty
+                ];
+                
+                $caseModel->saveTranslation($locale, $translationData);
+            }
         }
         unset($case);
     }

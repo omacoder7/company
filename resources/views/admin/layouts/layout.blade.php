@@ -101,7 +101,7 @@
                 <li><a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services.*') ? 'active' : '' }}">Услуги</a></li>
                 <li><a href="{{ route('admin.cases.index') }}" class="{{ request()->routeIs('admin.cases.*') ? 'active' : '' }}">Кейсы</a></li>
                 <li><a href="{{ route('admin.developer-tasks.index') }}" class="{{ request()->routeIs('admin.developer-tasks.*') ? 'active' : '' }}">Задачи для разработчиков</a></li>
-                <li><a href="{{ route('home') }}">На сайт</a></li>
+                <li><a href="{{ route('home', ['locale' => session('locale', config('app.locale', 'en'))]) }}">На сайт</a></li>
             </ul>
             <form action="{{ route('logout') }}" method="POST" style="margin-top: auto; padding-top: var(--spacing-lg);">
                 @csrf

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('page'); // home, about, services, cases, developers, contacts
             $table->string('section'); // hero_title, hero_text, etc.
-            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

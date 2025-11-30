@@ -24,11 +24,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        // Заполнение услуг, кейсов и задач
         $this->call([
             ServiceSeeder::class,
-            CaseStudySeeder::class,
-            DeveloperTaskSeeder::class,
         ]);
     }
 }

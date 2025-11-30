@@ -11,19 +11,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $services = Service::where('is_active', true)
+        $services = Service::with('translations')
+            ->where('is_active', true)
             ->orderBy('order')
             ->limit(6)
             ->get();
             
-        $cases = CaseStudy::where('is_active', true)
+        $cases = CaseStudy::with('translations')
+            ->where('is_active', true)
             ->orderBy('order')
             ->limit(6)
             ->get();
             
-        $content = PageContent::where('page', 'home')
-            ->pluck('content', 'section')
-            ->toArray();
+        // Get page content with translations
+        $pageContents = PageContent::with('translations')
+            ->where('page', 'home')
+            ->get();
+            
+        $content = [];
+        foreach ($pageContents as $pageContent) {
+            $content[$pageContent->section] = $pageContent->content;
+        }
             
         return view('web.home', compact('services', 'cases', 'content'));
     }

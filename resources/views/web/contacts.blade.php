@@ -32,7 +32,7 @@
             @endif
             
             <h2 class="text-center" style="margin-bottom: var(--spacing-md);">Форма связи</h2>
-            <form action="{{ route('contacts.store') }}" method="POST" class="form" data-ajax>
+            <form action="{{ route('contacts.store', ['locale' => app()->getLocale()]) }}" method="POST" class="form" data-ajax>
                 @csrf
                 @if(session('success'))
                 <div class="form-success">{{ session('success') }}</div>

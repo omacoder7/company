@@ -47,7 +47,7 @@
         @endif
         
         <div class="text-center mt-3">
-            <a href="{{ route('contacts') }}" class="btn btn-primary">Обсудить проект</a>
+            <a href="{{ route('contacts', ['locale' => app()->getLocale()]) }}" class="btn btn-primary">{{ __('pages.discuss_project') }}</a>
         </div>
     </div>
 </section>

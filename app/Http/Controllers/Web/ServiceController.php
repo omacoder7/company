@@ -9,7 +9,8 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::where('is_active', true)
+        $services = Service::with('translations')
+            ->where('is_active', true)
             ->orderBy('order')
             ->get();
             

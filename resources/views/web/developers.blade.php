@@ -139,7 +139,7 @@
         <div style="max-width: 700px; margin: 0 auto;">
             <h2 class="section-title heading-imperial">Форма отклика</h2>
             <p class="section-subtitle">Заполните форму, и мы свяжемся с вами для обсуждения сотрудничества</p>
-            <form action="{{ route('developers.apply') }}" method="POST" class="form" data-ajax>
+            <form action="{{ route('developers.apply', ['locale' => app()->getLocale()]) }}" method="POST" class="form" data-ajax>
                 @csrf
                 @if(session('success'))
                 <div class="form-success">{{ session('success') }}</div>
@@ -193,7 +193,7 @@
                     @enderror
                 </div>
                 
-                <button type="submit" class="btn btn-imperial" style="width: 100%;">Отправить заявку</button>
+                <button type="submit" class="btn btn-imperial" style="width: 100%;">{{ __('pages.send_application') }}</button>
             </form>
         </div>
     </div>

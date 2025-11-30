@@ -13,7 +13,7 @@ class UpdateDeveloperTaskRequest extends FormRequest
     }
 
     protected function prepareForValidation()
-    {
+    {     
         if (!$this->has('is_active')) {
             $this->merge(['is_active' => false]);
         } else {
@@ -23,11 +23,13 @@ class UpdateDeveloperTaskRequest extends FormRequest
 
     public function rules()
     {
-        $taskId = $this->route('id') ?? $this->route('developer_task') ?? $this->route()->parameter('id') ?? $this->route()->parameter('developer_task');
+        $taskId = $this->route('id') ?? $this->route('task') ?? $this->route()->parameter('id') ?? $this->route()->parameter('task');
         
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'translations' => 'required|array|min:1',
+            'translations.*' => 'nullable|array',
+            'translations.*.title' => 'required_with:translations.*|nullable|string|max:255',
+            'translations.*.description' => 'nullable|string',
             'stack' => 'nullable|string|max:255',
             'format' => 'nullable|string|max:255',
             'order' => [
@@ -51,4 +53,3 @@ class UpdateDeveloperTaskRequest extends FormRequest
         ];
     }
 }
-

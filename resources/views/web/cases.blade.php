@@ -33,7 +33,7 @@
                 @if($summary)
                 <p class="card-text">{{ Str::limit($summary, 150) }}</p>
                 @endif
-                <a href="{{ route('cases.show', $case->id) }}" class="btn">Подробнее</a>
+                <a href="{{ route('cases.show', ['locale' => app()->getLocale(), 'id' => $case->id]) }}" class="btn">{{ __('pages.more_details') }}</a>
             </div>
             @endforeach
         </div>

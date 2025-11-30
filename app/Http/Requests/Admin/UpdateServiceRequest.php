@@ -26,11 +26,13 @@ class UpdateServiceRequest extends FormRequest
         $serviceId = $this->route('id') ?? $this->route('service') ?? $this->route()->parameter('id') ?? $this->route()->parameter('service');
         
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'problem' => 'nullable|string',
-            'solution' => 'nullable|string',
-            'result' => 'nullable|string',
+            'translations' => 'required|array|min:1',
+            'translations.*' => 'nullable|array',
+            'translations.*.title' => 'required_with:translations.*|nullable|string|max:255',
+            'translations.*.description' => 'nullable|string',
+            'translations.*.problem' => 'nullable|string',
+            'translations.*.solution' => 'nullable|string',
+            'translations.*.result' => 'nullable|string',
             'order' => [
                 'nullable',
                 'integer',

@@ -24,11 +24,17 @@ class StoreServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'problem' => 'nullable|string',
-            'solution' => 'nullable|string',
-            'result' => 'nullable|string',
+            'translations' => 'required|array|min:1',
+            'translations.*' => 'nullable|array',
+            'translations.*.title' => 'required_with:translations.*|nullable|string|max:255',
+            'translations.en.description' => 'nullable|string',
+            'translations.en.problem' => 'nullable|string',
+            'translations.en.solution' => 'nullable|string',
+            'translations.en.result' => 'nullable|string',
+            'translations.*.description' => 'nullable|string',
+            'translations.*.problem' => 'nullable|string',
+            'translations.*.solution' => 'nullable|string',
+            'translations.*.result' => 'nullable|string',
             'order' => [
                 'nullable',
                 'integer',
@@ -47,6 +53,34 @@ class StoreServiceRequest extends FormRequest
             ],
             'is_active' => 'boolean',
         ];
+    }
+    
+    public function messages()
+    {
+        return [
+            'translations.required' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.min' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.*.title.required_with' => 'Если вы заполняете язык, название обязательно.',
+        ];
+    }
+    
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $translations = $this->input('translations', []);
+            $hasTitle = false;
+            
+            foreach (['ru', 'en', 'az'] as $locale) {
+                if (!empty($translations[$locale]['title'] ?? '')) {
+                    $hasTitle = true;
+                    break;
+                }
+            }
+            
+            if (!$hasTitle) {
+                $validator->errors()->add('translations', 'Необходимо заполнить название хотя бы на одном языке.');
+            }
+        });
     }
 }
 

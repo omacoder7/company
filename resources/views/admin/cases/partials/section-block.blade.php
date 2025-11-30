@@ -1,4 +1,5 @@
 @php
+    $prefix = $prefix ?? 'sections';
     $type = $section['type'] ?? 'text';
     $items = $section['items'] ?? '';
     $itemsValue = is_array($items) ? implode("\n", $items) : $items;
@@ -15,7 +16,7 @@
         <label class="form-label">Заголовок блока</label>
         <input
             type="text"
-            name="sections[{{ $index }}][title]"
+            name="{{ $prefix }}[{{ $index }}][title]"
             class="form-input"
             value="{{ $section['title'] ?? '' }}"
             placeholder="Например: Проблемы клиента">
@@ -23,7 +24,7 @@
 
     <div class="form-group">
         <label class="form-label">Тип содержимого</label>
-        <select name="sections[{{ $index }}][type]" class="form-input" data-section-type>
+        <select name="{{ $prefix }}[{{ $index }}][type]" class="form-input" data-section-type>
             <option value="text" {{ $type === 'text' ? 'selected' : '' }}>Текст / HTML</option>
             <option value="list" {{ $type === 'list' ? 'selected' : '' }}>Список</option>
             <option value="details" {{ $type === 'details' ? 'selected' : '' }}>Инфо-блок</option>
@@ -33,7 +34,7 @@
     <div class="form-group section-field-text" style="{{ $type === 'text' ? '' : 'display:none;' }}">
         <label class="form-label">Контент блока</label>
         <textarea
-            name="sections[{{ $index }}][content]"
+            name="{{ $prefix }}[{{ $index }}][content]"
             class="form-textarea"
             rows="4"
             placeholder="Можно использовать абзацы, ссылки, выделение HTML.">{{ $section['content'] ?? '' }}</textarea>
@@ -43,7 +44,7 @@
     <div class="form-group section-field-list" style="{{ $type === 'list' ? '' : 'display:none;' }}">
         <label class="form-label">Пункты списка</label>
         <textarea
-            name="sections[{{ $index }}][items]"
+            name="{{ $prefix }}[{{ $index }}][items]"
             class="form-textarea"
             rows="4"
             placeholder="Каждый пункт с новой строки.">{{ $itemsValue }}</textarea>
@@ -58,7 +59,7 @@
                 <div class="case-detail-input">
                     <input
                         type="text"
-                        name="sections[{{ $index }}][details][{{ $detailIndex }}][label]"
+                        name="{{ $prefix }}[{{ $index }}][details][{{ $detailIndex }}][label]"
                         class="form-input"
                         value="{{ $detail['label'] ?? '' }}"
                         placeholder="Подпись, например «Клиент»">
@@ -66,7 +67,7 @@
                 <div class="case-detail-input">
                     <input
                         type="text"
-                        name="sections[{{ $index }}][details][{{ $detailIndex }}][value]"
+                        name="{{ $prefix }}[{{ $index }}][details][{{ $detailIndex }}][value]"
                         class="form-input"
                         value="{{ $detail['value'] ?? '' }}"
                         placeholder="Значение, например «Retail Group»">
@@ -83,14 +84,14 @@
                 <div class="case-detail-input">
                     <input
                         type="text"
-                        name="sections[__INDEX__][details][__DETAIL_INDEX__][label]"
+                        name="{{ $prefix }}[__INDEX__][details][__DETAIL_INDEX__][label]"
                         class="form-input"
                         placeholder="Подпись, например «Клиент»">
                 </div>
                 <div class="case-detail-input">
                     <input
                         type="text"
-                        name="sections[__INDEX__][details][__DETAIL_INDEX__][value]"
+                        name="{{ $prefix }}[__INDEX__][details][__DETAIL_INDEX__][value]"
                         class="form-input"
                         placeholder="Значение, например «Retail Group»">
                 </div>

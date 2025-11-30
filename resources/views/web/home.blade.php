@@ -10,8 +10,8 @@
         <h1 class="hero-title heading-imperial">{{ $content['hero_title'] ?? 'Технологии. Дисциплина. Результат.' }}</h1>
         <p class="hero-text">{{ $content['hero_text'] ?? 'Мы меняем мир с помощью технологий. Создаём системы, которые помогают зарабатывать максимально много — для клиентов и для нас.' }}</p>
         <div class="hero-actions">
-            <a href="{{ route('contacts') }}" class="btn btn-imperial">Обсудить проект</a>
-            <a href="{{ route('cases') }}" class="btn btn-secondary">Посмотреть кейсы</a>
+            <a href="{{ route('contacts', ['locale' => app()->getLocale()]) }}" class="btn btn-imperial">{{ __('pages.discuss_project') }}</a>
+            <a href="{{ route('cases', ['locale' => app()->getLocale()]) }}" class="btn btn-secondary">{{ __('pages.view_cases') }}</a>
         </div>
     </div>
 </section>
@@ -85,12 +85,12 @@
             <div class="card">
                 <h3 class="card-title">{{ $service->title }}</h3>
                 <p class="card-text">{{ $service->description }}</p>
-                <a href="{{ route('services') }}" class="btn">Подробнее</a>
+                <a href="{{ route('services', ['locale' => app()->getLocale()]) }}" class="btn">{{ __('pages.more_details') }}</a>
             </div>
             @endforeach
         </div>
         <div class="text-center mt-3">
-            <a href="{{ route('services') }}" class="btn btn-imperial">Все услуги</a>
+            <a href="{{ route('services', ['locale' => app()->getLocale()]) }}" class="btn btn-imperial">{{ __('pages.all_services') }}</a>
         </div>
     </div>
 </section>
@@ -125,12 +125,12 @@
                 @if($case->summary)
                 <p class="card-text">{{ Str::limit($case->summary, 150) }}</p>
                 @endif
-                <a href="{{ route('cases.show', $case->id) }}" class="btn">Подробнее</a>
+                <a href="{{ route('cases.show', ['locale' => app()->getLocale(), 'id' => $case->id]) }}" class="btn">Подробнее</a>
             </div>
             @endforeach
         </div>
         <div class="text-center mt-3">
-            <a href="{{ route('cases') }}" class="btn btn-imperial">Все кейсы</a>
+            <a href="{{ route('cases', ['locale' => app()->getLocale()]) }}" class="btn btn-imperial">{{ __('pages.all_cases') }}</a>
         </div>
     </div>
 </section>
@@ -203,7 +203,7 @@
                     {{ $content['developers_rate'] ?? '$50 / час' }}
                 </span>
             </div>
-            <a href="{{ route('developers') }}" class="btn btn-imperial">Узнать больше</a>
+            <a href="{{ route('developers', ['locale' => app()->getLocale()]) }}" class="btn btn-imperial">{{ __('pages.learn_more') }}</a>
         </div>
     </div>
 </section>
@@ -213,7 +213,7 @@
     <div class="container">
         <h2 class="section-title heading-imperial">{{ $content['contact_title'] ?? 'Обсудить проект' }}</h2>
         <p class="section-subtitle">{{ $content['contact_subtitle'] ?? 'Готовы начать? Расскажите о вашем проекте, и мы обсудим, как технологии помогут вам зарабатывать больше.' }}</p>
-        <form action="{{ route('contacts.store') }}" method="POST" class="form" data-ajax>
+        <form action="{{ route('contacts.store', ['locale' => app()->getLocale()]) }}" method="POST" class="form" data-ajax>
             @csrf
             @if(session('success'))
             <div class="form-success">{{ session('success') }}</div>

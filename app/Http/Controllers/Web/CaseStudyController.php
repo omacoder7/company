@@ -9,16 +9,18 @@ class CaseStudyController extends Controller
 {
     public function index()
     {
-        $cases = CaseStudy::where('is_active', true)
+        $cases = CaseStudy::with('translations')
+            ->where('is_active', true)
             ->orderBy('order')
             ->get();
             
         return view('web.cases', compact('cases'));
     }
     
-    public function show($id)
+    public function show($locale, $id)
     {
-        $case = CaseStudy::findOrFail($id);
+        $case = CaseStudy::with('translations')
+            ->findOrFail($id);
         
         return view('web.case-detail', compact('case'));
     }

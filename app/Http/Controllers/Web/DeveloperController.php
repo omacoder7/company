@@ -14,13 +14,19 @@ class DeveloperController extends Controller
 {
     public function index()
     {
-        $tasks = DeveloperTask::where('is_active', true)
+        $tasks = DeveloperTask::with('translations')
+            ->where('is_active', true)
             ->orderBy('order')
             ->get();
             
-        $content = PageContent::where('page', 'developers')
-            ->pluck('content', 'section')
-            ->toArray();
+        $pageContents = PageContent::with('translations')
+            ->where('page', 'developers')
+            ->get();
+            
+        $content = [];
+        foreach ($pageContents as $pageContent) {
+            $content[$pageContent->section] = $pageContent->content;
+        }
             
         return view('web.developers', compact('tasks', 'content'));
     }

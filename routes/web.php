@@ -8,29 +8,41 @@ use App\Http\Controllers\Web\CaseStudyController;
 use App\Http\Controllers\Web\DeveloperController;
 use App\Http\Controllers\Web\ContactController;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\LocaleController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PageContentController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\CaseStudyController as AdminCaseStudyController;
 use App\Http\Controllers\Admin\DeveloperTaskController;
 
-// Authentication Routes
+// Locale switching route (must be before locale prefix routes)
+Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch')->where('locale', 'en|ru|az');
+
+// Authentication Routes (no locale prefix)
 Route::middleware('guest')->group(function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Public Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/services', [ServiceController::class, 'index'])->name('services');
-Route::get('/cases', [CaseStudyController::class, 'index'])->name('cases');
-Route::get('/cases/{id}', [CaseStudyController::class, 'show'])->name('cases.show');
-Route::get('/developers', [DeveloperController::class, 'index'])->name('developers');
-Route::post('/developers/apply', [DeveloperController::class, 'apply'])->name('developers.apply');
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
-Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+// Public Routes with locale prefix
+Route::prefix('{locale}')->where(['locale' => 'en|ru|az'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/about', [AboutController::class, 'index'])->name('about');
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::get('/cases', [CaseStudyController::class, 'index'])->name('cases');
+    Route::get('/cases/{id}', [CaseStudyController::class, 'show'])->name('cases.show')->where('id', '[0-9]+');
+    Route::get('/developers', [DeveloperController::class, 'index'])->name('developers');
+    Route::post('/developers/apply', [DeveloperController::class, 'apply'])->name('developers.apply');
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts');
+    Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+});
+
+// Redirect root to default locale
+Route::get('/', function () {
+    $locale = config('app.locale', 'en');
+    return redirect()->route('home', ['locale' => $locale]);
+});
 
 // Admin Routes
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {

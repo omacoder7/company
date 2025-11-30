@@ -13,12 +13,6 @@ return new class extends Migration
     {
         Schema::create('case_studies', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('client')->nullable();
-            $table->string('niche')->nullable();
-            $table->text('task')->nullable();
-            $table->text('solution')->nullable();
-            $table->text('result')->nullable();
             $table->string('image')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);

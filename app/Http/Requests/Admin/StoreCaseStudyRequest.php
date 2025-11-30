@@ -24,15 +24,17 @@ class StoreCaseStudyRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255',
-            'sections' => 'nullable|array',
-            'sections.*.title' => 'nullable|string|max:255',
-            'sections.*.type' => 'nullable|in:text,list,details',
-            'sections.*.content' => 'nullable|string',
-            'sections.*.items' => 'nullable|string',
-            'sections.*.details' => 'nullable|array',
-            'sections.*.details.*.label' => 'nullable|string|max:255',
-            'sections.*.details.*.value' => 'nullable|string',
+            'translations' => 'required|array|min:1',
+            'translations.*' => 'nullable|array',
+            'translations.*.title' => 'required_with:translations.*|nullable|string|max:255',
+            'translations.*.sections' => 'nullable|array',
+            'translations.*.sections.*.title' => 'nullable|string|max:255',
+            'translations.*.sections.*.type' => 'nullable|in:text,list,details',
+            'translations.*.sections.*.content' => 'nullable|string',
+            'translations.*.sections.*.items' => 'nullable|string',
+            'translations.*.sections.*.details' => 'nullable|array',
+            'translations.*.sections.*.details.*.label' => 'nullable|string|max:255',
+            'translations.*.sections.*.details.*.value' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'order' => [
                 'nullable',
@@ -53,5 +55,32 @@ class StoreCaseStudyRequest extends FormRequest
             'is_active' => 'boolean',
         ];
     }
+    
+    public function messages()
+    {
+        return [
+            'translations.required' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.min' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.*.title.required_with' => 'Если вы заполняете язык, название обязательно.',
+        ];
+    }
+    
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $translations = $this->input('translations', []);
+            $hasTitle = false;
+            
+            foreach (['ru', 'en', 'az'] as $locale) {
+                if (!empty($translations[$locale]['title'] ?? '')) {
+                    $hasTitle = true;
+                    break;
+                }
+            }
+            
+            if (!$hasTitle) {
+                $validator->errors()->add('translations', 'Необходимо заполнить название хотя бы на одном языке.');
+            }
+        });
+    }
 }
-

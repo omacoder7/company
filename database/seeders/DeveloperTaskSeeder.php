@@ -55,8 +55,38 @@ class DeveloperTaskSeeder extends Seeder
             ],
         ];
 
-        foreach ($tasks as $task) {
-            DeveloperTask::create($task);
+        foreach ($tasks as $taskData) {
+            // Extract common fields
+            $task = [
+                'stack' => $taskData['stack'],
+                'format' => $taskData['format'],
+                'order' => $taskData['order'],
+                'is_active' => $taskData['is_active'],
+            ];
+            
+            // Create task
+            $taskModel = DeveloperTask::create($task);
+            
+            // Create translations for all languages
+            // For now, use Russian as base for all languages (can be updated later)
+            $translations = [
+                'ru' => [
+                    'title' => $taskData['title'],
+                    'description' => $taskData['description'],
+                ],
+                'en' => [
+                    'title' => $taskData['title'], // TODO: Add English translations
+                    'description' => $taskData['description'], // TODO: Add English translations
+                ],
+                'az' => [
+                    'title' => $taskData['title'], // TODO: Add Azerbaijani translations
+                    'description' => $taskData['description'], // TODO: Add Azerbaijani translations
+                ],
+            ];
+            
+            foreach ($translations as $locale => $translationData) {
+                $taskModel->saveTranslation($locale, $translationData);
+            }
         }
     }
 }
