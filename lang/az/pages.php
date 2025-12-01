@@ -28,7 +28,7 @@ return [
     'deals' => 'Əməliyyatlar',
     'deals_description' => 'Ədalətli şərtlər, şəffaf razılaşmalar və öhdəliklərin yerinə yetirilməsi',
     'deadlines' => 'Son tarixlər',
-    'deadlines_description' => 'Четкие дедлайны и соблюдение сроков. Никаких оправданий',
+    'deadlines_description' => 'Son tarixləri aydınlaşdırın və son tarixlərə riayət edin. Heç bir bəhanə yoxdur.',
     'reports' => 'Hesabatlar',
     'reports_description' => 'Son tarixləri aydınlaşdırın və son tarixlərə riayət edin. Heç bir bəhanə yoxdur.',
     'quality' => 'Keyfiyyət',
