@@ -5,8 +5,8 @@
 @section('content')
 <section class="section">
     <div class="container">
-        <h1 class="section-title">Кейсы</h1>
-        <p class="section-subtitle">Реализованные проекты</p>
+        <h1 class="section-title">{{ __('pages.cases') }}</h1>
+        <p class="section-subtitle">{{ __('pages.cases_description') }}</p>
         
         @if($cases->count() > 0)
         <div class="grid grid-3" style="margin-top: var(--spacing-xl);">

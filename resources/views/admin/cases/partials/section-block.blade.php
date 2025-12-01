@@ -4,6 +4,7 @@
     $items = $section['items'] ?? '';
     $itemsValue = is_array($items) ? implode("\n", $items) : $items;
     $details = $section['details'] ?? [];
+    $imagePath = $section['image'] ?? null;
 @endphp
 
 <div class="case-section-block" data-section data-section-index="{{ $index }}">
@@ -29,6 +30,22 @@
             <option value="list" {{ $type === 'list' ? 'selected' : '' }}>Список</option>
             <option value="details" {{ $type === 'details' ? 'selected' : '' }}>Инфо-блок</option>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Изображение блока (необязательно)</label>
+        @if(!empty($imagePath))
+            <div style="margin-bottom: var(--spacing-xs);">
+                <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $section['title'] ?? '' }}" style="max-width: 200px; border-radius: var(--border-radius);">
+            </div>
+        @endif
+        <input
+            type="file"
+            name="{{ $prefix }}[{{ $index }}][image]"
+            class="form-input"
+            accept="image/*"
+        >
+        <p class="case-section-hint">Если загрузить файл, он будет показан в этом блоке кейса на странице.</p>
     </div>
 
     <div class="form-group section-field-text" style="{{ $type === 'text' ? '' : 'display:none;' }}">

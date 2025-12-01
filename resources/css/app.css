@@ -361,6 +361,11 @@ p {
     text-align: center;
 }
 
+.standard-card .card-text {
+    word-break: break-word;
+    hyphens: auto;
+}
+
 .standard-card:hover {
     border-color: var(--color-red-imperial);
     transform: translateY(-4px);
@@ -372,6 +377,8 @@ p {
     margin-bottom: var(--spacing-sm);
     font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
+    word-break: break-word;
+    hyphens: auto;
 }
 
 /* Hourly Rate Display */

@@ -23,16 +23,16 @@
         <p class="section-subtitle">{{ $content['technology_company_subtitle'] ?? 'Мы не просто агентство. Мы создаём архитектуры, системы и решения, которые меняют правила игры.' }}</p>
         <div class="grid grid-3">
             <div class="card science-bg">
-                <h3 class="heading-science">Архитектура</h3>
-                <p class="card-text">Проектируем масштабируемые системы с учётом будущего роста и нагрузки.</p>
+                <h3 class="heading-science">{{ __('pages.architecture') }}</h3>
+                <p class="card-text">{{ __('pages.architecture_description') }}</p>
             </div>
             <div class="card science-bg">
                 <h3 class="heading-science">R&D</h3>
-                <p class="card-text">Исследования, эксперименты, внедрение передовых технологий в каждый проект.</p>
+                <p class="card-text">{{ __('pages.r&d_description') }}</p>
             </div>
             <div class="card science-bg">
-                <h3 class="heading-science">Аналитика</h3>
-                <p class="card-text">Данные, метрики, расчёты. Каждое решение основано на анализе и логике.</p>
+                <h3 class="heading-science">{{ __('pages.analytics') }}</h3>
+                <p class="card-text">{{ __('pages.analytics_description') }}</p>
             </div>
         </div>
     </div>
@@ -45,12 +45,12 @@
         <p class="section-subtitle">{{ $content['profit_systems_subtitle'] ?? 'Мы делаем проекты, которые приносят максимальную прибыль. Для клиентов. Для нас. Это наш внутренний ориентир.' }}</p>
         <div class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
             <div class="card" style="border-left: 4px solid var(--color-red-imperial);">
-                <h3 class="heading-imperial">Для бизнеса</h3>
-                <p class="card-text">Каждая система, которую мы создаём, нацелена на увеличение прибыли клиента. Мы не делаем «просто сайты» — мы строим денежные машины.</p>
+                <h3 class="heading-imperial">{{ __('pages.for_business') }}</h3>
+                <p class="card-text">{{ __('pages.for_business_description') }}</p>
             </div>
             <div class="card" style="border-left: 4px solid var(--color-red-imperial);">
-                <h3 class="heading-imperial">Для нас</h3>
-                <p class="card-text">Это наш самый прибыльный проект. Мы вкладываем в него максимум ресурсов, потому что понимаем ценность результата.</p>
+                <h3 class="heading-imperial">{{ __('pages.for_us') }}</h3>
+                <p class="card-text">{{ __('pages.for_us_description') }}</p>
             </div>
         </div>
     </div>
@@ -63,12 +63,12 @@
         <p class="section-subtitle">{{ $content['against_goliath_subtitle'] ?? 'Мы помогаем и маленьким, и крупным компаниям выигрывать за счёт технологий, дисциплины и стратегии.' }}</p>
         <div class="grid grid-2">
             <div class="card">
-                <h3>Стартапы и малый бизнес</h3>
-                <p class="card-text">Технологии и скорость — ваше преимущество. Мы даём инструменты, которые позволяют конкурировать с крупными игроками.</p>
+                <h3>{{ __('pages.startup') }}</h3>
+                <p class="card-text">{{ __('pages.startup_description') }}</p>
             </div>
             <div class="card">
-                <h3>Крупные компании</h3>
-                <p class="card-text">Дисциплина, качество, масштабируемость. Мы строим системы, которые выдерживают нагрузку и растут вместе с бизнесом.</p>
+                <h3>{{ __('pages.big_company') }}</h3>
+                <p class="card-text">{{ __('pages.big_company_description') }}</p>
             </div>
         </div>
     </div>
@@ -125,7 +125,7 @@
                 @if($case->summary)
                 <p class="card-text">{{ Str::limit($case->summary, 150) }}</p>
                 @endif
-                <a href="{{ route('cases.show', ['locale' => app()->getLocale(), 'id' => $case->id]) }}" class="btn">Подробнее</a>
+                <a href="{{ route('cases.show', ['locale' => app()->getLocale(), 'id' => $case->id]) }}" class="btn">{{ __('pages.more_details') }}</a>
             </div>
             @endforeach
         </div>
@@ -143,32 +143,32 @@
         <p class="section-subtitle">{{ $content['standards_subtitle'] ?? 'Это не просто слова. Это обязательные требования к каждому проекту и каждому члену команды.' }}</p>
         <div class="standards-grid">
             <div class="standard-card">
-                <h4>Сделки</h4>
-                <p class="card-text">Честные условия, прозрачные договорённости, выполнение обязательств</p>
+                <h4>{{ __('pages.deals') }}</h4>
+                <p class="card-text">{{ __('pages.deals_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>Сроки</h4>
-                <p class="card-text">Четкие дедлайны и соблюдение сроков. Никаких оправданий</p>
+                <h4>{{ __('pages.deadlines') }}</h4>
+                <p class="card-text">{{ __('pages.deadlines_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>Отчёты</h4>
-                <p class="card-text">Регулярные отчёты о прогрессе. Прозрачность на каждом этапе</p>
+                <h4>{{ __('pages.reports') }}</h4>
+                <p class="card-text">{{ __('pages.reports_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>Качество</h4>
-                <p class="card-text">Код-ревью и тестирование на каждом этапе. Ноль компромиссов</p>
+                <h4>{{ __('pages.quality') }}</h4>
+                <p class="card-text">{{ __('pages.quality_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>NDA</h4>
-                <p class="card-text">Строгое соблюдение конфиденциальности по всем проектам</p>
+                <h4>{{ __('pages.nda') }}</h4>
+                <p class="card-text">{{ __('pages.nda_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>Трудолюбие</h4>
-                <p class="card-text">Работа на результат. Максимальная отдача в каждом проекте</p>
+                <h4>{{ __('pages.hard_work') }}</h4>
+                <p class="card-text">{{ __('pages.hard_work_description') }}</p>
             </div>
             <div class="standard-card">
-                <h4>Клиентоориентированность</h4>
-                <p class="card-text">Фокус на бизнес-целях клиента. Результат превыше всего</p>
+                <h4>{{ __('pages.client_orientation') }}</h4>
+                <p class="card-text">{{ __('pages.client_orientation_description') }}</p>
             </div>
         </div>
     </div>
@@ -180,7 +180,7 @@
         <div style="text-align: center; max-width: 600px; margin: 0 auto;">
             <h2 class="section-title">{{ $content['hourly_rate_title'] ?? 'Почасовая ставка' }}</h2>
             <div class="hourly-rate">
-                <span class="hourly-rate-label">Наша ставка</span>
+                <span class="hourly-rate-label">{{ __('pages.our_rate') }}</span>
                 <span>{{ $content['hourly_rate_amount'] ?? '$50 / час' }}</span>
             </div>
             <p class="section-subtitle" style="margin-top: var(--spacing-md);">
@@ -220,7 +220,7 @@
             @endif
             
             <div class="form-group">
-                <label for="name" class="form-label">Имя *</label>
+                <label for="name" class="form-label">{{ __('pages.name') }} *</label>
                 <input type="text" id="name" name="name" class="form-input" required>
                 @error('name')
                 <div class="form-error">{{ $message }}</div>
@@ -236,14 +236,14 @@
             </div>
             
             <div class="form-group">
-                <label for="message" class="form-label">Сообщение</label>
-                <textarea id="message" name="message" class="form-textarea" placeholder="Расскажите о вашем проекте, целях, сроках..."></textarea>
+                <label for="message" class="form-label">{{ __('pages.message') }}</label>
+                <textarea id="message" name="message" class="form-textarea" placeholder="{{ __('pages.message_body') }}"></textarea>
                 @error('message')
                 <div class="form-error">{{ $message }}</div>
                 @enderror
             </div>
             
-            <button type="submit" class="btn btn-imperial" style="width: 100%;">Отправить</button>
+            <button type="submit" class="btn btn-imperial" style="width: 100%;">{{ __('pages.send') }}</button>
         </form>
     </div>
 </section>

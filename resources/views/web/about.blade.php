@@ -11,23 +11,23 @@
                 {{ $content['description'] ?? 'Мы — команда профессионалов, специализирующаяся на разработке качественных решений. Наш подход основан на строгих стандартах, дисциплине и фокусе на результате.' }}
             </p>
             
-            <h2 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md);">Основные принципы</h2>
+            <h2 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md);">{{ __('pages.basic_principles') }}</h2>
             <div class="grid grid-2" style="margin-top: var(--spacing-md);">
                 <div class="card">
-                    <h3>Качество кода</h3>
-                    <p class="card-text">{{ $content['principle_1'] ?? 'Строгие стандарты разработки, код-ревью на каждом этапе, тестирование.' }}</p>
+                    <h3>{{ __('pages.code_quality') }}</h3>
+                    <p class="card-text">{{ $content['principle_1'] ?? __('pages.code_quality_description') }}</p>
                 </div>
                 <div class="card">
-                    <h3>Соблюдение сроков</h3>
-                    <p class="card-text">{{ $content['principle_2'] ?? 'Четкие дедлайны, регулярные отчеты, прозрачная коммуникация.' }}</p>
+                    <h3>{{ __('pages.meeting_deadlines') }}</h3>
+                    <p class="card-text">{{ $content['principle_2'] ?? __('pages.meeting_deadlines_descriptions') }}</p>
                 </div>
                 <div class="card">
-                    <h3>Профессионализм</h3>
-                    <p class="card-text">{{ $content['principle_3'] ?? 'Опытная команда, современные технологии, лучшие практики.' }}</p>
+                    <h3>{{ __('pages.professionalism') }}</h3>
+                    <p class="card-text">{{ $content['principle_3'] ?? __('pages.professionalism_description') }}</p>
                 </div>
                 <div class="card">
-                    <h3>Конфиденциальность</h3>
-                    <p class="card-text">{{ $content['principle_4'] ?? 'Строгое соблюдение NDA, защита данных клиентов.' }}</p>
+                    <h3>{{ __('pages.Confidentiality') }}</h3>
+                    <p class="card-text">{{ $content['principle_4'] ?? __('pages.confidentiality_description') }}</p>
                 </div>
             </div>
             

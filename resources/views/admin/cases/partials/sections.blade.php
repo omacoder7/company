@@ -7,6 +7,7 @@
             'content' => $section['content'] ?? '',
             'items' => $section['items'] ?? '',
             'details' => $section['details'] ?? [],
+            'image' => $section['image'] ?? null,
         ];
     })->toArray();
     $sectionsId = 'case-sections-' . ($locale ?? 'default');
@@ -32,7 +33,18 @@
 <button type="button" class="btn btn-secondary case-sections-add" data-sections-id="{{ $sectionsId }}" style="margin-bottom: var(--spacing-lg);">Добавить блок</button>
 
 <template id="case-section-template-{{ $sectionsId }}">
-    @include('admin.cases.partials.section-block', ['index' => '__INDEX__', 'section' => ['title' => '', 'type' => 'text', 'content' => '', 'items' => '', 'details' => []], 'prefix' => $prefix])
+    @include('admin.cases.partials.section-block', [
+        'index' => '__INDEX__',
+        'section' => [
+            'title' => '',
+            'type' => 'text',
+            'content' => '',
+            'items' => '',
+            'details' => [],
+            'image' => null,
+        ],
+        'prefix' => $prefix
+    ])
 </template>
 
 @once

@@ -5,8 +5,8 @@
 @section('content')
 <section class="section">
     <div class="container">
-        <h1 class="section-title">{{ $content['title'] ?? 'Контакты' }}</h1>
-        <p class="section-subtitle">{{ $content['subtitle'] ?? 'Свяжитесь с нами для обсуждения проекта' }}</p>
+        <h1 class="section-title">{{ $content['title'] ?? __('common.contacts') }}</h1>
+        <p class="section-subtitle">{{ $content['subtitle'] ?? __('pages.contacts_description') }}</p>
         
         <div style="max-width: 800px; margin: var(--spacing-xl) auto;">
             <div class="grid grid-2" style="margin-bottom: var(--spacing-xl);">
@@ -31,7 +31,7 @@
             </div>
             @endif
             
-            <h2 class="text-center" style="margin-bottom: var(--spacing-md);">Форма связи</h2>
+            <h2 class="text-center" style="margin-bottom: var(--spacing-md);">{{ __('pages.contact_form') }}</h2>
             <form action="{{ route('contacts.store', ['locale' => app()->getLocale()]) }}" method="POST" class="form" data-ajax>
                 @csrf
                 @if(session('success'))
@@ -39,7 +39,7 @@
                 @endif
                 
                 <div class="form-group">
-                    <label for="name" class="form-label">Имя *</label>
+                    <label for="name" class="form-label">{{ __('pages.name') }} *</label>
                     <input type="text" id="name" name="name" class="form-input" required>
                     @error('name')
                     <div class="form-error">{{ $message }}</div>
@@ -55,14 +55,14 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="message" class="form-label">Сообщение</label>
-                    <textarea id="message" name="message" class="form-textarea" placeholder="Опишите ваш проект или задачу..."></textarea>
+                    <label for="message" class="form-label">{{ __('pages.message') }}</label>
+                    <textarea id="message" name="message" class="form-textarea" placeholder={{ __('pages.contact_message') }}></textarea>
                     @error('message')
                     <div class="form-error">{{ $message }}</div>
                     @enderror
                 </div>
                 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">{{ __('pages.send') }}</button>
             </form>
         </div>
     </div>

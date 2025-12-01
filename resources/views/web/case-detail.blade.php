@@ -25,10 +25,17 @@
                     $content = $section['content'] ?? null;
                     $items = $section['items'] ?? [];
                     $details = $section['details'] ?? [];
+                    $image = $section['image'] ?? null;
                 @endphp
                 <div class="case-content-block" style="margin-bottom: var(--spacing-lg);">
                     @if($title)
                         <h2>{{ $title }}</h2>
+                    @endif
+
+                    @if($image)
+                        <div style="margin-bottom: var(--spacing-md);">
+                            <img src="{{ asset('storage/' . $image) }}" alt="{{ $title ?? $case->title }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--border-radius);">
+                        </div>
                     @endif
 
                     @if($type === 'details' && !empty($details))

@@ -93,7 +93,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3 style="color: var(--color-red-imperial);">STUDIO</h3>
-                    <p>Технологическая компания. Меняем мир с помощью технологий. Строгие стандарты. Результат.</p>
+                    <p>{{ __('pages.company_description') }}</p>
                 </div>
                 <div class="footer-section">
                     <h4>{{ __('common.navigation') }}</h4>
@@ -111,12 +111,12 @@
                     <p>Email: <a href="mailto:info@studio.com">info@studio.com</a></p>
                     <p>Telegram: <a href="https://t.me/studio">@studio</a></p>
                     <p style="margin-top: var(--spacing-sm);">
-                        <span style="color: var(--color-red-imperial); font-weight: var(--font-weight-bold);">$50 / час</span>
+                        <span style="color: var(--color-red-imperial); font-weight: var(--font-weight-bold);">{{ __('common.rate') }}</span>
                     </p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} STUDIO. Все права защищены.</p>
+                <p>&copy; {{ date('Y') }} STUDIO. {{ __('pages.rights_reserved') }}</p>
             </div>
         </div>
     </footer>

@@ -37,6 +37,7 @@ class UpdateCaseStudyRequest extends FormRequest
             'translations.*.sections.*.details' => 'nullable|array',
             'translations.*.sections.*.details.*.label' => 'nullable|string|max:255',
             'translations.*.sections.*.details.*.value' => 'nullable|string',
+            'translations.*.sections.*.image' => 'nullable|image|max:2048',
             'image' => 'nullable|image|max:2048',
             'order' => [
                 'nullable',

@@ -27,8 +27,21 @@ class CaseStudyController extends Controller
         $validated = $request->validated();
         
         // Extract translation data
-        $translations = $validated['translations'] ?? [];
+        $translationsInput = $request->input('translations', []);
         unset($validated['translations']);
+
+        // Handle images for sections (per locale / per block)
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (!empty($translationsInput[$locale]['sections'])) {
+                foreach ($translationsInput[$locale]['sections'] as $index => $section) {
+                    if ($request->hasFile("translations.$locale.sections.$index.image")) {
+                        $path = $request->file("translations.$locale.sections.$index.image")
+                            ->store('cases/sections', 'public');
+                        $translationsInput[$locale]['sections'][$index]['image'] = $path;
+                    }
+                }
+            }
+        }
         
         // Handle image
         if ($request->hasFile('image')) {
@@ -40,10 +53,10 @@ class CaseStudyController extends Controller
         
         // Save translations
         foreach (['ru', 'en', 'az'] as $locale) {
-            if (isset($translations[$locale])) {
+            if (isset($translationsInput[$locale])) {
                 $translationData = [
-                    'title' => $translations[$locale]['title'] ?? '',
-                    'sections' => $this->normalizeSections($translations[$locale]['sections'] ?? []),
+                    'title' => $translationsInput[$locale]['title'] ?? '',
+                    'sections' => $this->normalizeSections($translationsInput[$locale]['sections'] ?? []),
                 ];
                 $case->saveTranslation($locale, $translationData);
             }
@@ -80,8 +93,21 @@ class CaseStudyController extends Controller
         $validated = $request->validated();
         
         // Extract translation data
-        $translations = $validated['translations'] ?? [];
+        $translationsInput = $request->input('translations', []);
         unset($validated['translations']);
+
+        // Handle images for sections (per locale / per block)
+        foreach (['ru', 'en', 'az'] as $locale) {
+            if (!empty($translationsInput[$locale]['sections'])) {
+                foreach ($translationsInput[$locale]['sections'] as $index => $section) {
+                    if ($request->hasFile("translations.$locale.sections.$index.image")) {
+                        $path = $request->file("translations.$locale.sections.$index.image")
+                            ->store('cases/sections', 'public');
+                        $translationsInput[$locale]['sections'][$index]['image'] = $path;
+                    }
+                }
+            }
+        }
         
         // Handle image
         if ($request->hasFile('image')) {
@@ -96,10 +122,10 @@ class CaseStudyController extends Controller
         
         // Save translations
         foreach (['ru', 'en', 'az'] as $locale) {
-            if (isset($translations[$locale])) {
+            if (isset($translationsInput[$locale])) {
                 $translationData = [
-                    'title' => $translations[$locale]['title'] ?? '',
-                    'sections' => $this->normalizeSections($translations[$locale]['sections'] ?? []),
+                    'title' => $translationsInput[$locale]['title'] ?? '',
+                    'sections' => $this->normalizeSections($translationsInput[$locale]['sections'] ?? []),
                 ];
                 $case->saveTranslation($locale, $translationData);
             }
@@ -131,6 +157,7 @@ class CaseStudyController extends Controller
                 $content = null;
                 $items = [];
                 $details = [];
+                $image = $section['image'] ?? null;
 
                 if ($type === 'list') {
                     $items = collect(preg_split("/\r\n|\n|\r/", $section['items'] ?? ''))
@@ -162,6 +189,7 @@ class CaseStudyController extends Controller
                     'content' => $type === 'text' ? $content : null,
                     'items' => $type === 'list' ? $items : [],
                     'details' => $type === 'details' ? $details : [],
+                    'image' => $image,
                 ];
             })
             ->filter(function ($section) {
