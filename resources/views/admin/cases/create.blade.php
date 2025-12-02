@@ -40,7 +40,7 @@
         
         <div class="form-group">
             <label class="form-label">Название *</label>
-            <input type="text" name="translations[{{ $locale }}][title]" class="form-input" value="{{ old("translations.$locale.title") }}" required>
+            <input type="text" name="translations[{{ $locale }}][title]" class="form-input" value="{{ old("translations.$locale.title") }}">
             @error("translations.$locale.title")
                 <div class="error-message">{{ $message }}</div>
             @enderror

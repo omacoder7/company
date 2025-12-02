@@ -37,8 +37,8 @@ class UpdateCaseStudyRequest extends FormRequest
             'translations.*.sections.*.details' => 'nullable|array',
             'translations.*.sections.*.details.*.label' => 'nullable|string|max:255',
             'translations.*.sections.*.details.*.value' => 'nullable|string',
-            'translations.*.sections.*.image' => 'nullable|image|max:2048',
-            'image' => 'nullable|image|max:2048',
+            'translations.*.sections.*.image' => 'nullable|image',
+            'image' => 'nullable|image',
             'order' => [
                 'nullable',
                 'integer',
@@ -57,6 +57,19 @@ class UpdateCaseStudyRequest extends FormRequest
                 },
             ],
             'is_active' => 'boolean',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'translations.required' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.min' => 'Необходимо заполнить хотя бы один язык.',
+            'translations.*.title.required_with' => 'Если вы заполняете язык, название обязательно.',
+            'translations.*.sections.*.image.image' => 'Файл блока кейса должен быть изображением.',
+            'translations.*.sections.*.image.max' => 'Изображение блока кейса не должно быть больше 8 МБ.',
+            'image.image' => 'Файл кейса должен быть изображением.',
+            'image.max' => 'Изображение кейса не должно быть больше 8 МБ.',
         ];
     }
 }

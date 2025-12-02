@@ -41,6 +41,8 @@ class CaseStudyController extends Controller
                 }
             }
         }
+
+        $translationsInput = $this->syncSectionImagesAcrossLocales($translationsInput);
         
         // Handle image
         if ($request->hasFile('image')) {
@@ -119,6 +121,9 @@ class CaseStudyController extends Controller
                 }
             }
         }
+
+        // После обработки existing/remove синхронизируем изображения между локалями
+        $translationsInput = $this->syncSectionImagesAcrossLocales($translationsInput);
         
         // Handle image
         if ($request->hasFile('image')) {
@@ -153,6 +158,57 @@ class CaseStudyController extends Controller
         }
         $case->delete();
         return back()->with('success', 'Кейс удален');
+    }
+
+    /**
+     * Синхронизирует изображения секций между локалями:
+     * если в каком-то языке для секции с индексом N есть image,
+     * он копируется в секции с тем же индексом в других языках, если там image пустой.
+     */
+    private function syncSectionImagesAcrossLocales(array $translationsInput): array
+    {
+        $locales = ['ru', 'en', 'az'];
+
+        // Определяем максимальное количество секций среди всех локалей
+        $maxSections = 0;
+        foreach ($locales as $locale) {
+            $count = count($translationsInput[$locale]['sections'] ?? []);
+            if ($count > $maxSections) {
+                $maxSections = $count;
+            }
+        }
+
+        if ($maxSections === 0) {
+            return $translationsInput;
+        }
+
+        // По каждому индексу ищем "эталонное" изображение и подставляем в пустые
+        for ($index = 0; $index < $maxSections; $index++) {
+            $imagePath = null;
+
+            // Сначала ищем любое непустое изображение среди локалей
+            foreach ($locales as $locale) {
+                if (!empty($translationsInput[$locale]['sections'][$index]['image'] ?? null)) {
+                    $imagePath = $translationsInput[$locale]['sections'][$index]['image'];
+                    break;
+                }
+            }
+
+            if (!$imagePath) {
+                continue;
+            }
+
+            // Копируем найденный путь в остальные локали, где секция есть, но image пустой
+            foreach ($locales as $locale) {
+                if (isset($translationsInput[$locale]['sections'][$index])) {
+                    if (empty($translationsInput[$locale]['sections'][$index]['image'])) {
+                        $translationsInput[$locale]['sections'][$index]['image'] = $imagePath;
+                    }
+                }
+            }
+        }
+
+        return $translationsInput;
     }
 
     private function normalizeSections(array $sections = []): array
