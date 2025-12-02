@@ -13,13 +13,13 @@
                 <div class="card">
                     <h3>Email</h3>
                     <p class="card-text">
-                        <a href="mailto:info@studio.com" style="color: var(--color-primary-light);">info@studio.com</a>
+                        <a href="mailto:javid.jafarov.ag@gmail.com" style="color: var(--color-primary-light);">javid.jafarov.ag@gmail.com</a>
                     </p>
                 </div>
                 <div class="card">
                     <h3>Telegram</h3>
                     <p class="card-text">
-                        <a href="https://t.me/studio" style="color: var(--color-primary-light);">@studio</a>
+                        <a href="https://t.me/flutter_javid_dev" style="color: var(--color-primary-light);">@flutter_javid_dev</a>
                     </p>
                 </div>
             </div>

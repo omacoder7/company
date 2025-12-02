@@ -35,10 +35,49 @@
     <div class="form-group">
         <label class="form-label">Изображение блока (необязательно)</label>
         @if(!empty($imagePath))
-            <div style="margin-bottom: var(--spacing-xs);">
-                <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $section['title'] ?? '' }}" style="max-width: 200px; border-radius: var(--border-radius);">
+            <div class="case-section-image-wrapper" style="position: relative; display: inline-block; margin-bottom: var(--spacing-xs);">
+                <img src="{{ asset('storage/' . $imagePath) }}" alt="{{ $section['title'] ?? '' }}" style="max-width: 200px; border-radius: var(--border-radius); display: block;">
+                <button
+                    type="button"
+                    class="case-section-image-remove"
+                    data-remove-section-image
+                    title="Удалить изображение"
+                    style="
+                        position: absolute;
+                        top: -8px;
+                        right: -8px;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 999px;
+                        border: none;
+                        background: rgba(220, 53, 69, 0.9);
+                        color: #fff;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 16px;
+                        line-height: 1;
+                    "
+                >×</button>
             </div>
         @endif
+
+        {{-- Храним путь к существующему изображению, чтобы не терять его при сохранении без нового файла --}}
+        <input
+            type="hidden"
+            name="{{ $prefix }}[{{ $index }}][existing_image]"
+            value="{{ $imagePath }}"
+            data-existing-image-input
+        >
+        {{-- Флаг удаления изображения, управляется крестиком --}}
+        <input
+            type="hidden"
+            name="{{ $prefix }}[{{ $index }}][remove_image]"
+            value="0"
+            data-remove-image-input
+        >
+
         <input
             type="file"
             name="{{ $prefix }}[{{ $index }}][image]"

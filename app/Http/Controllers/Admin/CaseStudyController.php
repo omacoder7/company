@@ -30,7 +30,6 @@ class CaseStudyController extends Controller
         $translationsInput = $request->input('translations', []);
         unset($validated['translations']);
 
-        // Handle images for sections (per locale / per block)
         foreach (['ru', 'en', 'az'] as $locale) {
             if (!empty($translationsInput[$locale]['sections'])) {
                 foreach ($translationsInput[$locale]['sections'] as $index => $section) {
@@ -92,18 +91,30 @@ class CaseStudyController extends Controller
         $case = CaseStudy::findOrFail($id);
         $validated = $request->validated();
         
-        // Extract translation data
         $translationsInput = $request->input('translations', []);
         unset($validated['translations']);
 
-        // Handle images for sections (per locale / per block)
         foreach (['ru', 'en', 'az'] as $locale) {
             if (!empty($translationsInput[$locale]['sections'])) {
                 foreach ($translationsInput[$locale]['sections'] as $index => $section) {
+                    $existingImage = $section['existing_image'] ?? null;
+                    $removeImage = !empty($section['remove_image']);
+
                     if ($request->hasFile("translations.$locale.sections.$index.image")) {
+                        if ($existingImage) {
+                            Storage::disk('public')->delete($existingImage);
+                        }
+
                         $path = $request->file("translations.$locale.sections.$index.image")
                             ->store('cases/sections', 'public');
                         $translationsInput[$locale]['sections'][$index]['image'] = $path;
+                    } elseif ($removeImage) {
+                        if ($existingImage) {
+                            Storage::disk('public')->delete($existingImage);
+                        }
+                        $translationsInput[$locale]['sections'][$index]['image'] = null;
+                    } else {
+                        $translationsInput[$locale]['sections'][$index]['image'] = $existingImage;
                     }
                 }
             }

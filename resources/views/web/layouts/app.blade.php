@@ -108,8 +108,8 @@
                 </div>
                 <div class="footer-section">
                     <h4>{{ __('common.contacts') }}</h4>
-                    <p>Email: <a href="mailto:info@studio.com">info@studio.com</a></p>
-                    <p>Telegram: <a href="https://t.me/studio">@studio</a></p>
+                    <p>Email: <a href="mailto:javid.jafarov.ag@gmail.com">javid.jafarov.ag@gmail.com</a></p>
+                    <p>Telegram: <a href="https://t.me/flutter_javid_dev">@flutter_javid_dev</a></p>
                     <p style="margin-top: var(--spacing-sm);">
                         <span style="color: var(--color-red-imperial); font-weight: var(--font-weight-bold);">{{ __('common.rate') }}</span>
                     </p>

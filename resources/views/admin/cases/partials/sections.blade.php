@@ -165,6 +165,10 @@
                 const listField = block.querySelector('.section-field-list');
                 const detailsField = block.querySelector('.section-field-details');
                 const removeButton = block.querySelector('[data-remove-section]');
+                const imageWrapper = block.querySelector('.case-section-image-wrapper');
+                const imageRemoveButton = block.querySelector('[data-remove-section-image]');
+                const existingImageInput = block.querySelector('[data-existing-image-input]');
+                const removeImageInput = block.querySelector('[data-remove-image-input]');
 
                 if (typeSelect) {
                     const toggleFields = () => {
@@ -231,6 +235,20 @@
                     removeButton.addEventListener('click', () => {
                         block.remove();
                         updateEmptyState();
+                    });
+                }
+
+                // Удаление изображения блока по крестику
+                if (imageRemoveButton && imageWrapper && removeImageInput) {
+                    imageRemoveButton.addEventListener('click', () => {
+                        // Помечаем изображение как удалённое
+                        removeImageInput.value = '1';
+                        // Сбрасываем путь к существующему изображению
+                        if (existingImageInput) {
+                            existingImageInput.value = '';
+                        }
+                        // Прячем превью изображения
+                        imageWrapper.style.display = 'none';
                     });
                 }
             };
