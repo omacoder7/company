@@ -46,7 +46,7 @@ return [
     'send' => 'Göndər',
     'company_description' => 'Texnologiya şirkəti. Texnologiya ilə dünyanı dəyişdirmək. Ciddi standartlar. Nəticələr.',
     'rights_reserved' => 'Bütün hüquqlar qorunur',
-    'rate' => '$50 / saat',
+    'rate' => '$30 / saat',
     'basic_principles' => 'Əsas prinsiplər',
     'code_quality' => 'Kod keyfiyyəti',
     'code_quality_description' => 'Ciddi inkişaf standartları, hər mərhələdə kodun nəzərdən keçirilməsi, sınaq.',

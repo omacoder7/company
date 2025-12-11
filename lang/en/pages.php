@@ -46,7 +46,7 @@ return [
     'send' => 'Send',
     'company_description' => 'A technology company. Changing the world with technology. Strict standards. Results.',
     'rights_reserved' => 'All rights reserved',
-    'rate' => '$50 / hour',
+    'rate' => '$30 / hour',
     'basic_principles' => 'Basic principles',
     'code_quality' => 'Code quality',
     'code_quality_description' => 'Strict development standards, code review at every stage, testing.',

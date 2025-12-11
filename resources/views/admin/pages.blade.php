@@ -107,7 +107,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Сумма ставки</label>
-            <input type="text" name="home_hourly_rate_amount_{{ $locale }}" class="form-input" value="{{ $formData['home_hourly_rate_amount_' . $locale] ?? ($locale === 'ru' ? '$50 / час' : '') }}">
+            <input type="text" name="home_hourly_rate_amount_{{ $locale }}" class="form-input" value="{{ $formData['home_hourly_rate_amount_' . $locale] ?? ($locale === 'ru' ? '$30 / час' : '') }}">
         </div>
         <div class="form-group">
             <label class="form-label">Подзаголовок</label>
@@ -125,7 +125,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Ставка</label>
-            <input type="text" name="home_developers_rate_{{ $locale }}" class="form-input" value="{{ $formData['home_developers_rate_' . $locale] ?? ($locale === 'ru' ? '$50 / час' : '') }}">
+            <input type="text" name="home_developers_rate_{{ $locale }}" class="form-input" value="{{ $formData['home_developers_rate_' . $locale] ?? ($locale === 'ru' ? '$30 / час' : '') }}">
         </div>
         
         <h2 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-md);">Форма обратной связи</h2>

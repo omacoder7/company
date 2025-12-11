@@ -4,8 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Студия разработки')</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>@yield('meta_title', 'HeroComputer - Technology. Discipline. Results.')</title>
+    <meta name="description" content="@yield('meta_description', 'HeroComputer - We change the world with technology. We create systems that help generate maximum revenue—for our clients and for us.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'HeroComputer, technology company, web development, mobile development, backend development, API development, DevOps, software development')">
+    <meta name="author" content="HeroComputer">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#dc143c">
+    <link rel="canonical" href="@yield('canonical_url', url()->current())">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:title" content="@yield('og_title', 'HeroComputer - Technology. Discipline. Results.')">
+    <meta property="og:description" content="@yield('og_description', 'HeroComputer - We change the world with technology. We create systems that help generate maximum revenue—for our clients and for us.')">
+    <meta property="og:url" content="@yield('og_url', url()->current())">
+    <meta property="og:site_name" content="HeroComputer">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-image.jpg'))">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'ru' ? 'ru_RU' : (app()->getLocale() === 'az' ? 'az_AZ' : 'en_US') }}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', 'HeroComputer - Technology. Discipline. Results.')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'HeroComputer - We change the world with technology. We create systems that help generate maximum revenue—for our clients and for us.')">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/og-image.jpg'))">
+    
+    @stack('meta')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

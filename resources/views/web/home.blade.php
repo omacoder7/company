@@ -1,6 +1,46 @@
 @extends('web.layouts.app')
 
-@section('title', 'Главная')
+@php
+    $locale = app()->getLocale();
+    $baseUrl = 'https://herocomputer.us';
+    $currentUrl = route('home', ['locale' => $locale], true);
+    
+    $metaTitles = [
+        'en' => 'HeroComputer - Technology. Discipline. Results.',
+        'ru' => 'HeroComputer - Технологии. Дисциплина. Результат.',
+        'az' => 'HeroComputer - Texnologiya. İntizam. Nəticə.'
+    ];
+    
+    $metaDescriptions = [
+        'en' => 'HeroComputer - We change the world with technology. We create systems that help generate maximum revenue—for our clients and for us.',
+        'ru' => 'HeroComputer - Мы меняем мир с помощью технологий. Создаём системы, которые помогают зарабатывать максимально много — для клиентов и для нас.',
+        'az' => 'HeroComputer - Texnologiya ilə dünyanı dəyişdiririk. Müştərilər və bizim üçün maksimum gəlir əldə etməyə kömək edən sistemlər yaradırıq.'
+    ];
+    
+    $metaTitle = $metaTitles[$locale] ?? $metaTitles['en'];
+    $metaDescription = $metaDescriptions[$locale] ?? $metaDescriptions['en'];
+    
+    $metaKeywords = [
+        'en' => 'HeroComputer, technology company, web development, mobile development, backend development, API development, DevOps, software development, custom software solutions',
+        'ru' => 'HeroComputer, технологическая компания, веб-разработка, мобильная разработка, backend разработка, API разработка, DevOps, разработка программного обеспечения, кастомные решения',
+        'az' => 'HeroComputer, texnologiya şirkəti, veb inkişaf, mobil inkişaf, backend inkişaf, API inkişaf, DevOps, proqram təminatı inkişafı, xüsusi həllər'
+    ];
+    
+    $metaKeywordsText = $metaKeywords[$locale] ?? $metaKeywords['en'];
+@endphp
+
+@section('meta_title', $metaTitle)
+@section('meta_description', $metaDescription)
+@section('meta_keywords', $metaKeywordsText)
+@section('canonical_url', $currentUrl)
+@section('og_type', 'website')
+@section('og_title', $metaTitle)
+@section('og_description', $metaDescription)
+@section('og_url', $currentUrl)
+@section('og_image', $baseUrl . '/images/og-image.jpg')
+@section('twitter_title', $metaTitle)
+@section('twitter_description', $metaDescription)
+@section('twitter_image', $baseUrl . '/images/og-image.jpg')
 
 @section('content')
 <!-- Hero Section - Imperial, Powerful, Technology -->
@@ -181,7 +221,7 @@
             <h2 class="section-title">{{ $content['hourly_rate_title'] ?? 'Почасовая ставка' }}</h2>
             <div class="hourly-rate">
                 <span class="hourly-rate-label">{{ __('pages.our_rate') }}</span>
-                <span>{{ $content['hourly_rate_amount'] ?? '$50 / час' }}</span>
+                <span>{{ $content['hourly_rate_amount'] ?? '$30 / час' }}</span>
             </div>
             <p class="section-subtitle" style="margin-top: var(--spacing-md);">
                 {{ $content['hourly_rate_subtitle'] ?? 'Без лишних пояснений. Деловой и уверенный подход к ценообразованию.' }}
@@ -200,7 +240,7 @@
             </p>
             <div style="margin: var(--spacing-md) 0;">
                 <span class="hourly-rate" style="font-size: 1.25rem; padding: var(--spacing-xs) var(--spacing-md);">
-                    {{ $content['developers_rate'] ?? '$50 / час' }}
+                    {{ $content['developers_rate'] ?? '$30 / час' }}
                 </span>
             </div>
             <a href="{{ route('developers', ['locale' => app()->getLocale()]) }}" class="btn btn-imperial">{{ __('pages.learn_more') }}</a>

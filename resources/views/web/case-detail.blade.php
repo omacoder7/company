@@ -8,7 +8,7 @@
         <a href="{{ route('cases', ['locale' => app()->getLocale()]) }}" class="btn btn-secondary" style="margin-bottom: var(--spacing-md);">← {{ __('pages.back_to_cases') }}</a>
         
         @if($case->image)
-        <img src="{{ asset('storage/' . $case->image) }}" alt="{{ $case->title }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: var(--spacing-lg);">
+        <img src="{{ asset('storage/' . $case->image) }}" alt="{{ $case->title }}" style="display: block; max-width: 100%; width: auto; max-height: 500px; height: auto; object-fit: contain; background: #f8f8f8; border-radius: var(--border-radius); margin-bottom: var(--spacing-lg);">
         @endif
         
         <h1>{{ $case->title }}</h1>
@@ -34,7 +34,7 @@
 
                     @if($image)
                         <div style="margin-bottom: var(--spacing-md);">
-                            <img src="{{ asset('storage/' . $image) }}" alt="{{ $title ?? $case->title }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--border-radius);">
+                            <img src="{{ asset('storage/' . $image) }}" alt="{{ $title ?? $case->title }}" style="display: block; max-width: 100%; width: auto; max-height: 500px; height: auto; object-fit: contain; background: #f8f8f8; border-radius: var(--border-radius);">
                         </div>
                     @endif
 
