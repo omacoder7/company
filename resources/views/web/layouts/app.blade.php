@@ -112,6 +112,9 @@
         </div>
     </header>
 
+    <main class="main">
+        @yield('content')
+    </main>
 
     <footer class="footer">
         <div class="container">
